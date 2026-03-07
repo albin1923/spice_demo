@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+spice_frames/
+.gemini/
+.agents/
+.agent/
+_agents/
+_agent/
+*.log
+.env

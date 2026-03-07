@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Botanicals | The Malabar Grand Blend</title>
+    <meta name="description" content="Sourced from the heart of Kottayam, The Malabar Grand Blend is a premium fusion of Kerala's finest spices and chilies. Experience the eruption of flavor.">
+    
+    <!-- SEO & Social Meta Tags -->
+    <meta property="og:title" content="Aura Botanicals | The Malabar Grand Blend">
+    <meta property="og:description" content="A monumental fusion of Kerala's finest harvests. Smoky chili heat, earthy turmeric warmth, and aromatic cardamom zest.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aurabotanicals.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aura Botanicals | The Malabar Grand Blend">
+    <meta name="twitter:description" content="Perfectly balanced, ethically sourced, and violently flavorful spices from Kerala.">
+    
+    <!-- Favicon (Emoji placeholder) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loader" class="loader-overlay">
+        <div class="loader-content">
+            <h1 class="loader-logo">AURA BOTANICALS</h1>
+            <div class="loader-bar-container">
+                <div id="loader-progress-bar" class="loader-bar"></div>
+            </div>
+            <p id="loader-text" class="loader-text">Merging Spices <span id="loader-percentage">0</span>%</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">AURA BOTANICALS</div>
+            <ul class="nav-links">
+                <li><a href="#studio" class="nav-link">Studio</a></li>
+                <li><a href="#process" class="nav-link">Process</a></li>
+                <li><a href="#sourcing" class="nav-link">Sourcing</a></li>
+                <li><a href="#health" class="nav-link">Health Benefits</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Parallax WebP Container) -->
+    <header class="hero-section" id="studio">
+        <!-- Text Behind the jar/canvas -->
+        <div class="hero-bg-text" id="hero-bg-text">GRAND BLEND</div>
+        
+        <!-- Canvas for scroll-bound animation -->
+        <canvas id="parallax-canvas"></canvas>
+
+        <div class="hero-content">
+            <!-- Left Side Overlay -->
+            <div class="hero-left">
+                <h2 class="product-subtitle">THE KOTTAYAM ESSENCE | SPICES & CHILIES COMBINED</h2>
+                <p class="product-description">
+                    A monumental fusion of Kerala's finest harvests. Sourced directly from our family estates in Kottayam, this single glass jar holds the entire spectrum of flavor—smoky chili heat, earthy turmeric warmth, aromatic cardamom zest, and the rich depth of cracked pepper. Perfectly balanced, ethically sourced, and violently flavorful.
+                </p>
+                <div class="hero-cta-group">
+                    <button class="cta-btn cta-transparent" aria-label="Quick View of Malabar Grand Blend">QUICK VIEW</button>
+                    <button class="cta-btn cta-solid" aria-label="Add Malabar Grand Blend to Cart">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator" id="scroll-hint">
+                <span class="scroll-text">Scroll to Explode</span>
+                <div class="scroll-line"></div>
+            </div>
+
+            <!-- Center Area remains empty for jar visibility -->
+            <div class="hero-center"></div>
+
+            <!-- Right Side Navigation / Meta -->
+            <div class="hero-right">
+                <div class="product-meta-vertical">
+                    <span>BLEND-ID: OB-G01</span>
+                </div>
+            </div>
+
+            <!-- Bottom Center Social Icons -->
+            <div class="hero-bottom-social">
+                <a href="#" class="social-icon" aria-label="Instagram">
+                    <!-- SVG for Instagram -->
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="#" class="social-icon" aria-label="Pinterest">
+                    <!-- SVG for Pinterest -->
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="22" x2="12" y2="2"></line><path d="M12 2a10 10 0 1 0 0 20"></path><path d="M9.5 22.5c0-1 .2-2.5.5-3.5a35 35 0 0 1 1.5-6.5S11 11.5 11 10.5c0-2 1-3.5 2.5-3.5 1.2 0 2 .6 2 1.5 0 1-.5 3-.8 4.5S14 16 15 16c1.5 0 3-1.5 3-4C18 9 15.5 7 12 7c-4.5 0-7.5 3-7.5 7 0 1.5.8 3 1.5 3.5.2.2.3.2.3 0v-.5c0-.5-.5-1-1-2-.5-1-1-2.5-1-4.5C4 7.5 7.5 4 12 4c4 0 7 2 7 6 0 3-1.5 5.5-3.5 5.5-1 0-1.8-.5-2-1.5-.2 0-.2-1-.3-1.5-.2-1-.4-2-.5-3-.2-.5-1-.8-1.5-.8-.8 0-1.5.5-1.5 1.5s.5 2.5 1.5 3z"></path></svg>
+                </a>
+                <a href="#" class="social-icon" aria-label="LinkedIn">
+                    <!-- SVG for LinkedIn -->
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- The rest of the page (Below the fold) to act as a scrolling container for the canvas animation -->
+    <main class="main-content">
+        <!-- Spacer section to provide scroll depth for the hero animation -->
+        <section class="hero-scroll-spacer"></section>
+
+        <section id="process" class="content-section">
+            <div class="section-container">
+                <h3 class="section-title">The Process</h3>
+                <div class="process-grid">
+                    <div class="process-card">
+                        <h4 class="card-title">01. ETHICAL SOURCING</h4>
+                        <p class="card-text">Directly from family estates in Kottayam, Kerala. Hand-picked at peak potency.</p>
+                    </div>
+                    <div class="process-card">
+                        <h4 class="card-title">02. SUN DRYING</h4>
+                        <p class="card-text">Natural curing under the tropical sun to concentrate essential oils and lock in vibrant colors.</p>
+                    </div>
+                    <div class="process-card">
+                        <h4 class="card-title">03. PRECISION GRINDING</h4>
+                        <p class="card-text">Cold-milled to preserve volatile aromatics, resulting in an explosive flavor profile.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="health" class="content-section alternate-bg">
+            <div class="section-container">
+                <div class="health-layout">
+                    <div class="health-text">
+                        <h3 class="section-title accent-text">The Power of Many</h3>
+                        <p class="health-description">A synergistic powerhouse. The active curcumin in turmeric, combined with piperine from cracked black pepper, increases absorption by 2000%. The capsaicin from the chilies ignites metabolism, while cardamom acts as a potent anti-inflammatory agent.</p>
+                    </div>
+                    <!-- Empty div for layout balance -->
+                    <div class="health-image-placeholder"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="content-section">
+            <div class="section-container">
+                <h3 class="section-title">Gallery</h3>
+                <div class="masonry-grid">
+                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 1/1;">Dish 1</div></div>
+                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 3/4;">Preparation</div></div>
+                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 4/3;">Farms</div></div>
+                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 1/1.5;">The Jar</div></div>
+                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 3/2;">Spices</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="content-section">
+            <div class="section-container">
+                <h3 class="section-title">Testimonials</h3>
+                <div class="testimonial-grid">
+                     <blockquote class="testimonial">
+                        "The most profound spice blend I've encountered. It brings a chaotic yet perfectly balanced heat and aroma that transforms any dish."
+                        <cite>- Chef Elena M., 2 Michelin Stars</cite>
+                     </blockquote>
+                     <blockquote class="testimonial">
+                        "A single jar holding the essence of Kerala. The quality of the turmeric and cardamom is simply unmatched in the industry."
+                        <cite>- David K., Culinary Director</cite>
+                     </blockquote>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">AURA BOTANICALS</div>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact</a>
+            </div>
+            <p class="copyright">&copy; 2026 Aura Botanicals. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
