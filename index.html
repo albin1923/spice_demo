@@ -15,7 +15,7 @@
     <meta name="twitter:title" content="Aura Botanicals | The Malabar Grand Blend">
     <meta name="twitter:description" content="Perfectly balanced, ethically sourced, and violently flavorful spices from Kerala.">
     
-    <!-- Favicon (Emoji placeholder) -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
 
     <!-- Google Fonts -->
@@ -56,11 +56,11 @@
 
     <!-- Hero Section (Parallax WebP Container) -->
     <header class="hero-section" id="studio">
-        <!-- Text Behind the jar/canvas -->
-        <div class="hero-bg-text" id="hero-bg-text">THE MALABAR<br>GRAND BLEND</div>
-        
         <!-- Canvas for scroll-bound animation -->
         <canvas id="parallax-canvas"></canvas>
+
+        <!-- Text layered ABOVE canvas & overlay, always visible -->
+        <div class="hero-bg-text" id="hero-bg-text">THE MALABAR<br>GRAND BLEND</div>
 
         <div class="hero-content">
             <!-- Left Side Overlay -->
@@ -94,25 +94,22 @@
             <!-- Bottom Center Social Icons -->
             <div class="hero-bottom-social">
                 <a href="#" class="social-icon" aria-label="Instagram">
-                    <!-- SVG for Instagram -->
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 </a>
                 <a href="#" class="social-icon" aria-label="Pinterest">
-                    <!-- SVG for Pinterest -->
-                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="22" x2="12" y2="2"></line><path d="M12 2a10 10 0 1 0 0 20"></path><path d="M9.5 22.5c0-1 .2-2.5.5-3.5a35 35 0 0 1 1.5-6.5S11 11.5 11 10.5c0-2 1-3.5 2.5-3.5 1.2 0 2 .6 2 1.5 0 1-.5 3-.8 4.5S14 16 15 16c1.5 0 3-1.5 3-4C18 9 15.5 7 12 7c-4.5 0-7.5 3-7.5 7 0 1.5.8 3 1.5 3.5.2.2.3.2.3 0v-.5c0-.5-.5-1-1-2-.5-1-1-2.5-1-4.5C4 7.5 7.5 4 12 4c4 0 7 2 7 6 0 3-1.5 5.5-3.5 5.5-1 0-1.8-.5-2-1.5-.2 0-.2-1-.3-1.5-.2-1-.4-2-.5-3-.2-.5-1-.8-1.5-.8-.8 0-1.5.5-1.5 1.5s.5 2.5 1.5 3z"></path></svg>
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49-.09-.79-.17-2 .04-2.87.18-.79 1.18-5.02 1.18-5.02s-.3-.61-.3-1.51c0-1.41.82-2.47 1.84-2.47.87 0 1.29.65 1.29 1.43 0 .87-.56 2.18-.84 3.39-.24 1.01.51 1.83 1.5 1.83 1.8 0 3.19-1.9 3.19-4.65 0-2.43-1.75-4.13-4.24-4.13-2.89 0-4.58 2.17-4.58 4.4 0 .87.34 1.8.75 2.31.08.1.09.19.07.29-.08.31-.25 1.01-.28 1.15-.05.19-.15.23-.35.14-1.31-.61-2.13-2.53-2.13-4.07 0-3.31 2.41-6.36 6.94-6.36 3.64 0 6.48 2.6 6.48 6.07 0 3.62-2.28 6.53-5.45 6.53-1.06 0-2.07-.55-2.41-1.21l-.66 2.5c-.24.91-.88 2.05-1.32 2.75C9.9 21.89 10.94 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"></path></svg>
                 </a>
                 <a href="#" class="social-icon" aria-label="LinkedIn">
-                    <!-- SVG for LinkedIn -->
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Scroll spacer: transparent div that lets the hero animation play while scrolling -->
+    <!-- Scroll spacer: transparent div that lets the hero animation play -->
     <div class="hero-scroll-spacer" id="hero-scroll-spacer"></div>
 
-    <!-- The rest of the page (Below the fold) -->
+    <!-- Below the fold content -->
     <main class="main-content">
 
         <section id="process" class="content-section">
@@ -142,8 +139,9 @@
                         <h3 class="section-title accent-text">The Power of Many</h3>
                         <p class="health-description">A synergistic powerhouse. The active curcumin in turmeric, combined with piperine from cracked black pepper, increases absorption by 2000%. The capsaicin from the chilies ignites metabolism, while cardamom acts as a potent anti-inflammatory agent.</p>
                     </div>
-                    <!-- Empty div for layout balance -->
-                    <div class="health-image-placeholder"></div>
+                    <div class="health-image">
+                        <img src="assets/gallery/health.png" alt="Turmeric, chili, cardamom and black pepper arrangement" loading="lazy">
+                    </div>
                 </div>
             </div>
         </section>
@@ -152,16 +150,16 @@
             <div class="section-container">
                 <h3 class="section-title">Gallery</h3>
                 <div class="masonry-grid">
-                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 1/1;">Dish 1</div></div>
-                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 3/4;">Preparation</div></div>
-                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 4/3;">Farms</div></div>
-                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 1/1.5;">The Jar</div></div>
-                    <div class="masonry-item"><div class="placeholder-img" style="aspect-ratio: 3/2;">Spices</div></div>
+                    <div class="masonry-item"><img src="assets/gallery/dish1.png" alt="Signature curry dish with the Grand Blend" loading="lazy"></div>
+                    <div class="masonry-item"><img src="assets/gallery/preparation.png" alt="Spice preparation bowls" loading="lazy"></div>
+                    <div class="masonry-item"><img src="assets/gallery/farms.png" alt="Kerala spice farms in Kottayam" loading="lazy"></div>
+                    <div class="masonry-item"><img src="assets/gallery/jar.png" alt="The Malabar Grand Blend jar" loading="lazy"></div>
+                    <div class="masonry-item"><img src="assets/gallery/cooking.png" alt="Chef sprinkling spices over dish" loading="lazy"></div>
                 </div>
             </div>
         </section>
 
-        <section id="faq" class="content-section">
+        <section id="faq" class="content-section alternate-bg">
             <div class="section-container">
                 <h3 class="section-title">Testimonials</h3>
                 <div class="testimonial-grid">
@@ -190,7 +188,6 @@
         </div>
     </footer>
 
-    <!-- Main JavaScript -->
     <script src="js/script.js"></script>
 </body>
 </html>
