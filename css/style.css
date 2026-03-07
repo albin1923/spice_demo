@@ -405,12 +405,19 @@ body {
 /* =========================================
    Main Content Layout (Scrolling Container)
 ========================================= */
+
+/* Spacer is transparent so the fixed hero shows through */
+.hero-scroll-spacer {
+    position: relative;
+    z-index: 2;
+    /* Height set by JS: frameCount * scrollPerFrame */
+}
+
 .main-content {
     position: relative;
     z-index: 10;
+    background-color: var(--bg-dark);
 }
-
-/* .hero-scroll-spacer is used in JS to force height to drive the scroll animation */
 
 .content-section {
     padding: 8rem 3rem;

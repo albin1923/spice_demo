@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================= */
     const canvas = document.getElementById("parallax-canvas");
     const ctx = canvas.getContext("2d");
-    const startFrame = 45; // Start where eruption begins based on file sizes
+    const startFrame = 42; // Start where eruption begins (user specified)
     const endFrame = 191;
-    const frameCount = endFrame - startFrame + 1; 
+    const frameCount = endFrame - startFrame + 1; // 150 frames
     const frames = [];
     
     // UI Elements
@@ -14,14 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const loaderProgressBar = document.getElementById("loader-progress-bar");
     const loaderPercentage = document.getElementById("loader-percentage");
     const navbar = document.getElementById("navbar");
-    const heroScrollSpacer = document.querySelector(".hero-scroll-spacer");
+    const heroScrollSpacer = document.getElementById("hero-scroll-spacer");
     const heroBgText = document.getElementById("hero-bg-text");
     const scrollHint = document.getElementById("scroll-hint");
 
     let imagesLoaded = 0;
     let targetFrameIndex = 0;
     let interpolatedFrameIndex = 0;
-    const lerpAmount = 0.1; // Smoothing factor for scroll
+    const lerpAmount = 0.12; // Smoothing factor
 
     /* =========================================
        Helper Functions
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             img.onload = () => {
                 imagesLoaded++;
                 updateProgress();
-                frames[i] = img; // store reference at correct index
+                frames[i] = img;
             };
             img.onerror = () => {
                 imagesLoaded++;
@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const animate = () => {
-        // Smooth frame transitions
         interpolatedFrameIndex += (targetFrameIndex - interpolatedFrameIndex) * lerpAmount;
         const roundedIndex = Math.round(interpolatedFrameIndex);
         renderFrame(roundedIndex);
@@ -114,10 +113,12 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
         
-        const scrollPerFrame = 25; 
-        heroScrollSpacer.style.height = `${frameCount * scrollPerFrame}px`;
+        // Set spacer height: this controls how much scroll drives the animation
+        // 100vh (one screen) for initial hero view + frame animation scroll depth
+        const scrollPerFrame = 20; 
+        heroScrollSpacer.style.height = `${window.innerHeight + (frameCount * scrollPerFrame)}px`;
         
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         requestAnimationFrame(animate);
     };
 
@@ -142,25 +143,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Calculate Frame Index
-        const maxScroll = heroScrollSpacer.offsetHeight;
-        // Subtract window.innerHeight so the animation completes exactly when the spacer is scrolled past
-        const scrollFraction = Math.max(0, Math.min(scrollTop / (maxScroll - window.innerHeight), 1));
+        // The animation should start after the first viewport of scroll (the hero view)
+        const animationStart = window.innerHeight * 0.3; // Start animating after 30% of viewport
+        const spacerHeight = heroScrollSpacer.offsetHeight;
+        const animationScroll = Math.max(0, scrollTop - animationStart);
+        const animationLength = spacerHeight - window.innerHeight;
+        const scrollFraction = Math.max(0, Math.min(animationScroll / animationLength, 1));
         targetFrameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
 
-        // Background Text Parallax
+        // Background Text: ALWAYS VISIBLE, only subtle scale effect, NO fade out
         if (heroBgText) {
-            const yOffset = scrollTop * 0.15;
-            const opacity = 1 - (scrollTop / 800); // Fade out slightly slower
-            heroBgText.style.transform = `translate(-50%, calc(-50% - ${yOffset}px)) scale(${1 + scrollFraction * 0.1})`;
-            heroBgText.style.opacity = Math.max(0, opacity * 0.6); // Allow it to be brighter initially
+            const scale = 1 + scrollFraction * 0.15;
+            heroBgText.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            // Text stays at full opacity always — the user explicitly wants it to persist
         }
     };
 
     /* =========================================
        Fade In Animation (Intersection Observer)
-    ======================================== */
+    ========================================= */
     const addFadeClasses = () => {
-        const sections = document.querySelectorAll('.content-section .section-container, .hero-left, .hero-right');
+        const sections = document.querySelectorAll('.content-section .section-container');
         sections.forEach(sec => {
             sec.style.opacity = "0";
             sec.style.transform = "translateY(30px)";
@@ -182,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
             rootMargin: "0px 0px -50px 0px"
         });
 
-        const sections = document.querySelectorAll('.content-section .section-container, .hero-left, .hero-right');
+        const sections = document.querySelectorAll('.content-section .section-container');
         sections.forEach(sec => observer.observe(sec));
     };
 
