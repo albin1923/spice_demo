@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================= */
     const canvas = document.getElementById("parallax-canvas");
     const ctx = canvas.getContext("2d");
-    const frameCount = 192; // Total renamed frames
+    const startFrame = 45; // Start where eruption begins based on file sizes
+    const endFrame = 191;
+    const frameCount = endFrame - startFrame + 1; 
     const frames = [];
     
     // UI Elements
@@ -25,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
        Helper Functions
     ========================================= */
     const currentFrameURL = index => {
-        const paddedIndex = index.toString().padStart(3, '0');
+        const actualIndex = index + startFrame;
+        const paddedIndex = actualIndex.toString().padStart(3, '0');
         return `assets/frames/frame_${paddedIndex}.png`;
     };
 
@@ -140,15 +143,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Calculate Frame Index
         const maxScroll = heroScrollSpacer.offsetHeight;
-        const scrollFraction = Math.max(0, Math.min(scrollTop / maxScroll, 1));
+        // Subtract window.innerHeight so the animation completes exactly when the spacer is scrolled past
+        const scrollFraction = Math.max(0, Math.min(scrollTop / (maxScroll - window.innerHeight), 1));
         targetFrameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
 
         // Background Text Parallax
         if (heroBgText) {
             const yOffset = scrollTop * 0.15;
-            const opacity = 1 - (scrollTop / 600);
+            const opacity = 1 - (scrollTop / 800); // Fade out slightly slower
             heroBgText.style.transform = `translate(-50%, calc(-50% - ${yOffset}px)) scale(${1 + scrollFraction * 0.1})`;
-            heroBgText.style.opacity = Math.max(0, opacity * 0.1); 
+            heroBgText.style.opacity = Math.max(0, opacity * 0.6); // Allow it to be brighter initially
         }
     };
 

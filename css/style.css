@@ -180,9 +180,11 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: var(--font-heading);
-    font-size: 18vw;
+    font-size: clamp(4rem, 12vw, 15rem);
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.1); 
+    line-height: 0.9;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6); /* Brighter to be majorly visible */
     white-space: nowrap;
     z-index: 0; 
     letter-spacing: -0.05em;
@@ -407,8 +409,6 @@ body {
 .main-content {
     position: relative;
     z-index: 10;
-    /* Start main content lower down so scrolling hero operates for a bit */
-    margin-top: 300vh;
     background-color: var(--bg-dark);
 }
 
