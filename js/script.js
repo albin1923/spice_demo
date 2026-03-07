@@ -109,8 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
         
-        // Spacer height = 1 viewport (hero visible) + scroll depth for animation
-        const scrollPerFrame = 20;
+        // Spacer height = hero viewport + scroll depth for animation
+        // Increased scrollPerFrame from 20 to 45 to slow down the animation significantly
+        const scrollPerFrame = 45;
         const spacerHeight = window.innerHeight + (frameCount * scrollPerFrame);
         heroScrollSpacer.style.height = spacerHeight + 'px';
         
@@ -135,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Frame calculation:
         const heroViewHeight = window.innerHeight;
-        const animStart = heroViewHeight * 0.2;
+        const animStart = 0; // Start immediately to prevent "jump" on first scroll
         const animEnd = heroScrollSpacer.offsetHeight - heroViewHeight;
         const animScroll = Math.max(0, scrollTop - animStart);
         const animLength = animEnd - animStart;
@@ -143,20 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         targetFrameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
 
-        // Background text: visible in the hero zone, fades when Process section appears,
-        // reappears when scrolling back up into the hero zone
+        // Background text: ALWAYS VISIBLE, only subtle scale effect, NO fade out
         if (heroBgText) {
             const scale = 1 + scrollFraction * 0.2;
-            const spacerBottom = heroScrollSpacer.offsetHeight;
-            // Text is fully visible while in the spacer; fades out as we enter main-content
-            const fadeStart = spacerBottom - heroViewHeight * 0.5;
-            const fadeEnd = spacerBottom;
-            let textOpacity = 1;
-            if (scrollTop > fadeStart) {
-                textOpacity = Math.max(0, 1 - (scrollTop - fadeStart) / (fadeEnd - fadeStart));
-            }
             heroBgText.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            heroBgText.style.opacity = textOpacity * 0.08; // base opacity from CSS color
+            heroBgText.style.opacity = '1'; // Ensure it's fully opaque (relies on CSS rgba color for actual transparency)
         }
     };
 
