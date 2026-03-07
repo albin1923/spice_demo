@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================= */
     const canvas = document.getElementById("parallax-canvas");
     const ctx = canvas.getContext("2d");
-    const startFrame = 42; // First frame to use (user specified)
+    const startFrame = 47; // First frame (user specified: delete up to 46)
     const endFrame = 191;
-    const frameCount = endFrame - startFrame + 1; // 150 usable frames
+    const frameCount = endFrame - startFrame + 1; // 145 usable frames
     const frames = [];
     
     // UI Elements
@@ -134,10 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (scrollHint) scrollHint.classList.toggle("fade-out", scrollTop > 100);
 
         // Frame calculation:
-        // First viewport of scroll = hero is just sitting there (no animation yet)
-        // After that, animation plays across the remaining spacer height
         const heroViewHeight = window.innerHeight;
-        const animStart = heroViewHeight * 0.2; // Start animating after 20% of viewport
+        const animStart = heroViewHeight * 0.2;
         const animEnd = heroScrollSpacer.offsetHeight - heroViewHeight;
         const animScroll = Math.max(0, scrollTop - animStart);
         const animLength = animEnd - animStart;
@@ -145,11 +143,20 @@ document.addEventListener("DOMContentLoaded", () => {
         
         targetFrameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
 
-        // Background text: ALWAYS VISIBLE, only a subtle scale effect
+        // Background text: visible in the hero zone, fades when Process section appears,
+        // reappears when scrolling back up into the hero zone
         if (heroBgText) {
             const scale = 1 + scrollFraction * 0.2;
+            const spacerBottom = heroScrollSpacer.offsetHeight;
+            // Text is fully visible while in the spacer; fades out as we enter main-content
+            const fadeStart = spacerBottom - heroViewHeight * 0.5;
+            const fadeEnd = spacerBottom;
+            let textOpacity = 1;
+            if (scrollTop > fadeStart) {
+                textOpacity = Math.max(0, 1 - (scrollTop - fadeStart) / (fadeEnd - fadeStart));
+            }
             heroBgText.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            // NO opacity change - text stays permanently visible
+            heroBgText.style.opacity = textOpacity * 0.08; // base opacity from CSS color
         }
     };
 
