@@ -4,11 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================= */
     const canvas = document.getElementById("parallax-canvas");
     const ctx = canvas.getContext("2d");
-    const startFrame = 47; // First frame (user specified: delete up to 46)
+    const startFrame = 47;
     const endFrame = 191;
-    const frameCount = endFrame - startFrame + 1; // 145 usable frames
-    const frames = [];
-    
+    const totalFrames = endFrame - startFrame + 1; // 145 usable frames
+
     // UI Elements
     const loaderOverlay = document.getElementById("loader");
     const loaderProgressBar = document.getElementById("loader-progress-bar");
@@ -17,39 +16,98 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroScrollSpacer = document.getElementById("hero-scroll-spacer");
     const heroBgText = document.getElementById("hero-bg-text");
     const scrollHint = document.getElementById("scroll-hint");
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileNavOverlay = document.getElementById("mobile-nav-overlay");
+    const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
 
+    /* =========================================
+       Device Detection & Adaptive Config
+    ========================================= */
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+
+    // Mobile: load every 2nd frame for faster loading
+    const frameStep = isMobile ? 2 : 1;
+    const frameIndices = [];
+    for (let i = 0; i < totalFrames; i += frameStep) {
+        frameIndices.push(i);
+    }
+    const frameCount = frameIndices.length;
+
+    // Frame storage
+    const frames = new Array(frameCount).fill(null);
     let imagesLoaded = 0;
     let targetFrameIndex = 0;
     let interpolatedFrameIndex = 0;
-    const lerpAmount = 0.12;
+    const lerpAmount = isMobile ? 0.15 : 0.12; // Slightly faster interpolation on mobile
 
     /* =========================================
-       Frame URL Helper
+       Frame URL Helper (WebP with adaptive sizing)
     ========================================= */
-    const currentFrameURL = index => {
-        const actualIndex = index + startFrame;
+    const currentFrameURL = (arrayIndex) => {
+        const frameOffset = frameIndices[arrayIndex];
+        const actualIndex = frameOffset + startFrame;
         const paddedIndex = actualIndex.toString().padStart(3, '0');
-        return `assets/frames/frame_${paddedIndex}.png`;
+
+        if (isMobile) {
+            return `assets/frames-mobile/frame_${paddedIndex}.webp`;
+        }
+        return `assets/frames-webp/frame_${paddedIndex}.webp`;
     };
 
     /* =========================================
-       Preloading
+       Priority Preloading
+       - Load first 10 frames immediately (above the fold)
+       - Then load the rest in background
     ========================================= */
+    const PRIORITY_COUNT = Math.min(10, frameCount);
+
     const preloadImages = () => {
-        for (let i = 0; i < frameCount; i++) {
+        // Phase 1: Load priority frames
+        loadFrameBatch(0, PRIORITY_COUNT, () => {
+            // After priority frames are loaded, init canvas early
+            if (imagesLoaded >= PRIORITY_COUNT) {
+                initCanvasEarly();
+            }
+            // Phase 2: Load remaining frames
+            loadFrameBatch(PRIORITY_COUNT, frameCount);
+        });
+    };
+
+    let canvasInitialized = false;
+
+    const loadFrameBatch = (start, end, onBatchDone) => {
+        let batchLoaded = 0;
+        const batchSize = end - start;
+
+        for (let i = start; i < end; i++) {
             const img = new Image();
             img.src = currentFrameURL(i);
             img.onload = () => {
                 imagesLoaded++;
                 frames[i] = img;
+                batchLoaded++;
                 updateProgress();
+                if (onBatchDone && batchLoaded === batchSize) onBatchDone();
             };
             img.onerror = () => {
                 imagesLoaded++;
                 frames[i] = null;
+                batchLoaded++;
                 updateProgress();
+                if (onBatchDone && batchLoaded === batchSize) onBatchDone();
             };
         }
+    };
+
+    const initCanvasEarly = () => {
+        if (canvasInitialized) return;
+        canvasInitialized = true;
+        // Hide loader early once priority frames are in
+        setTimeout(() => {
+            if (loaderOverlay) loaderOverlay.classList.add("hidden");
+            initCanvas();
+        }, 300);
     };
 
     const updateProgress = () => {
@@ -57,11 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (loaderPercentage) loaderPercentage.innerText = percent;
         if (loaderProgressBar) loaderProgressBar.style.width = `${percent}%`;
 
-        if (imagesLoaded === frameCount) {
-            setTimeout(() => {
-                if (loaderOverlay) loaderOverlay.classList.add("hidden");
-                initCanvas();
-            }, 400);
+        // Fallback: if priority loading didn't trigger, init when fully done
+        if (imagesLoaded === frameCount && !canvasInitialized) {
+            initCanvasEarly();
         }
     };
 
@@ -69,14 +125,19 @@ document.addEventListener("DOMContentLoaded", () => {
        Canvas Rendering
     ========================================= */
     const resizeCanvas = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // On mobile, use lower resolution canvas for performance
+        const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.scale(dpr, dpr);
         renderFrame(Math.round(interpolatedFrameIndex));
     };
 
     const drawImageCover = (ctx, img) => {
         if (!img) return;
-        const cW = canvas.width, cH = canvas.height;
+        const cW = window.innerWidth, cH = window.innerHeight;
         const iW = img.width, iH = img.height;
         const scale = Math.max(cW / iW, cH / iH);
         const w = iW * scale, h = iH * scale;
@@ -106,18 +167,15 @@ document.addEventListener("DOMContentLoaded", () => {
        Initialization
     ========================================= */
     const initCanvas = () => {
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', debounce(resizeCanvas, 150));
         resizeCanvas();
-        
-        // Spacer height = hero viewport + scroll depth for animation
-        // Increased scrollPerFrame from 20 to 45 to slow down the animation significantly
-        const scrollPerFrame = 45;
+
+        const scrollPerFrame = isMobile ? 30 : 45;
         const spacerHeight = window.innerHeight + (frameCount * scrollPerFrame);
         heroScrollSpacer.style.height = spacerHeight + 'px';
-        
-        // Render first frame immediately
+
         renderFrame(0);
-        
+
         window.addEventListener('scroll', handleScroll, { passive: true });
         requestAnimationFrame(animate);
     };
@@ -127,29 +185,51 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================= */
     const handleScroll = () => {
         const scrollTop = window.scrollY;
-        
+
         // Navbar
         navbar.classList.toggle("scrolled", scrollTop > 50);
 
         // Scroll Hint
         if (scrollHint) scrollHint.classList.toggle("fade-out", scrollTop > 100);
 
-        // Frame calculation:
+        // Frame calculation
         const heroViewHeight = window.innerHeight;
-        const animStart = 0; // Start immediately to prevent "jump" on first scroll
+        const animStart = 0;
         const animEnd = heroScrollSpacer.offsetHeight - heroViewHeight;
         const animScroll = Math.max(0, scrollTop - animStart);
         const animLength = animEnd - animStart;
         const scrollFraction = Math.max(0, Math.min(animScroll / animLength, 1));
-        
+
         targetFrameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
 
-        // Background text: ALWAYS VISIBLE, only subtle scale effect, NO fade out
+        // Background text parallax
         if (heroBgText) {
             const scale = 1 + scrollFraction * 0.2;
             heroBgText.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            heroBgText.style.opacity = '1'; // Ensure it's fully opaque (relies on CSS rgba color for actual transparency)
+            heroBgText.style.opacity = '1';
         }
+    };
+
+    /* =========================================
+       Mobile Navigation
+    ========================================= */
+    const initMobileNav = () => {
+        if (!hamburgerBtn || !mobileNavOverlay) return;
+
+        hamburgerBtn.addEventListener('click', () => {
+            const isOpen = hamburgerBtn.classList.contains('active');
+            hamburgerBtn.classList.toggle('active');
+            mobileNavOverlay.classList.toggle('active');
+            document.body.style.overflow = isOpen ? '' : 'hidden';
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
     };
 
     /* =========================================
@@ -177,8 +257,20 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     /* =========================================
+       Utility: Debounce
+    ========================================= */
+    const debounce = (fn, delay) => {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn(...args), delay);
+        };
+    };
+
+    /* =========================================
        Boot
     ========================================= */
     initFadeIn();
+    initMobileNav();
     preloadImages();
 });
